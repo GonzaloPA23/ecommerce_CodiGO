@@ -8,6 +8,7 @@ import React from 'react';
 import SectionInstructions from '@/components/SectionInstructions';
 import Carousel from '@/components/Carousel';
 
+
 export default function Home() {
 
   /* characteres son los productos obtenidos de la api, tiene como valor iniciar "[]"
@@ -15,9 +16,9 @@ export default function Home() {
   const [characters, setCharacters] = useState([]);
 
   /* url y categorias a filtrar */
-  const initialUrl = 'https://ecommerce-api-backend-nlld.onrender.com/productos';
-  const category1 = 'Telefonos';
-  const category2 = 'Laptops';
+  const initialUrl = 'https://dummyjson.com/products';
+  const category1 = 'smartphones';
+  const category2 = 'laptops';
 
   /* funcion que nos permite inicializar una sola vez fetchCharacteres */
   useEffect(() => {
@@ -29,9 +30,8 @@ export default function Home() {
       .then(response => response.json())
       .then(data => {
         /* filtro por categorias smartphone y laptops de la api */
-        console.log(data);
-        const products = data.filter(product => category1.includes(product.categoria.nombre) || category2.includes(product.categoria.nombre));
-        //console.log(products)
+        const products = data.products.filter(product => category1.includes(product.category) || category2.includes(product.category));
+        console.log(products)
         setCharacters(products)
       })
       /* catch para el manejo de errores */
@@ -51,8 +51,8 @@ export default function Home() {
         <h1 className='text-4xl mt-4 text-center font-light'>Productos Destacados</h1>
         <div className='mt-4 grid grid-cols-1 md:grid-cols-3 gap-4'>
           {/* se imprime por medio de map los productos con el componente Product con los datos de la api  */}
-          {characters.map((product) =>
-          <Product key={product.id} stock={product.stock} id={product.id} title={product.nombre} price={product.precio} images={product.imagenes}/>)}
+          {characters.map((product,index) => 
+          <Product key={index} id={product.id} title={product.title} price={product.price} images={product.images} />)}
         </div>
       </section>
       <SectionInstructions />
